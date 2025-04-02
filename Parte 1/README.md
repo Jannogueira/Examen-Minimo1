@@ -1,2 +1,0 @@
-# ProductManager
-# MINIM1
