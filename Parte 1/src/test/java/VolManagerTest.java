@@ -68,5 +68,5 @@ public class VolManagerTest {
         vm.addVol(vol);
         Assert.assertEquals(0, vm.numVols());
     }
-    
+
 }

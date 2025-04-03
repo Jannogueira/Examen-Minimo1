@@ -10,6 +10,7 @@ public interface VolManager {
     public void addAvio(String id, String model, String companyia);
     public void facturarMaleta(String idVol,Maleta maleta);
     public void addVol(Vol vol);
+    public void addVol(String id, String horaSortida, String horaArribada, String idAvio, String origen, String desti);
 
     public int numVols();
     public List<Avio> getAvioList();

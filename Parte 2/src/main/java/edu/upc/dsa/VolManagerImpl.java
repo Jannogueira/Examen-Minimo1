@@ -37,6 +37,16 @@ public class VolManagerImpl implements VolManager {
         return ret;
     }
 
+    public int sizeEquipatge(String volId){
+        for(Vol vol : volList){
+            if(vol.getId().equals(volId)){
+                return vol.getEquipatge().size();
+            }
+        }
+        logger.error("Error: El vol amb ID " + volId + " no existeix a la llista.");
+        return 0;
+    }
+
     public Vol addVol(Vol vol) {
         boolean found = false;
         for (Avio avioA : avioList) {
@@ -65,17 +75,66 @@ public class VolManagerImpl implements VolManager {
         return vol;
     }
 
-    public Vol addVol(String id, String name){
-        return this.addVol(id, name, 0);
+    public Vol addVol(String id, String horaSortida, String horaArribada, String idAvio, String origen, String desti) {
+        boolean found = false;
+        Avio avio = getAvio(idAvio);
+        Vol vol = new Vol(id, horaSortida, horaArribada, avio, origen, desti);
+        for (Avio avioA : avioList) {
+            if (avioA.getId().equals(avio.getId())) {
+                found = true;
+            }
+        }
+        if(found) {
+            for (Vol volA : volList) {
+                if (volA.getId().equals(id)) {
+                    volA.setHoraSortida(horaSortida);
+                    volA.setHoraArribada(horaArribada);
+                    volA.setAvio(avio);
+                    volA.setOrigen(origen);
+                    volA.setDesti(desti);
+                    logger.info("Informacio del vol" + id + " actualitzada");
+                    return vol;
+                }
+            }
+            volList.add(new Vol(id, horaSortida, horaArribada, avio, origen, desti));
+            logger.info("El vol amb ID " + id + " s'ha afegit a la llista");
+        }
+        else{
+            logger.info("Error: L'avio amb ID " + avio.getId() + " no existeix a la llista.");
+        }
+        return vol;
     }
-
-    public Vol addVol(String id, String name, double price) {
-        return this.addVol(new Vol(id, name, price));
+    public Vol addVol(String id, String horaSortida, String horaArribada, Avio avio, String origen, String desti) {
+        boolean found = false;
+        Vol vol = new Vol(id, horaSortida, horaArribada, avio, origen, desti);
+        for (Avio avioA : avioList) {
+            if (avioA.getId().equals(avio.getId())) {
+                found = true;
+            }
+        }
+        if(found) {
+            for (Vol volA : volList) {
+                if (volA.getId().equals(id)) {
+                    volA.setHoraSortida(horaSortida);
+                    volA.setHoraArribada(horaArribada);
+                    volA.setAvio(avio);
+                    volA.setOrigen(origen);
+                    volA.setDesti(desti);
+                    logger.info("Informacio del vol" + id + " actualitzada");
+                    return vol;
+                }
+            }
+            volList.add(new Vol(id, horaSortida, horaArribada, avio, origen, desti));
+            logger.info("El vol amb ID " + id + " s'ha afegit a la llista");
+        }
+        else{
+            logger.info("Error: L'avio amb ID " + avio.getId() + " no existeix a la llista.");
+        }
+        return vol;
     }
 
     public Vol getVol(String id) {
         logger.info("getVol("+id+")");
-
         for (Vol v: this.volList) {
             if (v.getId().equals(id)) {
                 logger.info("getVol("+id+"): "+v);
@@ -84,7 +143,7 @@ public class VolManagerImpl implements VolManager {
             }
         }
 
-        logger.warn("not found " + id);
+        logger.warn("El vol amb ID:" + id + " No trobat");
         return null;
     }
 
@@ -93,20 +152,53 @@ public class VolManagerImpl implements VolManager {
         if (v == null) throw new VolNotFoundException();
         return v;
     }
+
+    public Avio addAvio(String id, String model, String Companyia) {
+        Avio avio = new Avio(id, model, Companyia);
+        for (Avio avioA : avioList) {
+            if (avioA.getId().equals(avio.getId())) {
+                avioA.setModel(avio.getModel());
+                avioA.setCompanyia(avio.getCompanyia());
+
+                logger.info("Informacio de l'avio" + avio.getId() + " actualitzada");
+                return avio;
+            }
+        }
+        avioList.add(avio);
+        logger.info("L'avio amb ID " + avio.getId() + " s'ha afegit a la llista");
+        return avio;
+    }
+
+    public Avio addAvio(Avio avio) {
+        for (Avio avioA : avioList) {
+            if (avioA.getId().equals(avio.getId())) {
+                avioA.setModel(avio.getModel());
+                avioA.setCompanyia(avio.getCompanyia());
+
+                logger.info("Informacio de l'avio" + avio.getId() + " actualitzada");
+                return avio;
+            }
+        }
+        avioList.add(avio);
+        logger.info("L'avio amb ID " + avio.getId() + " s'ha afegit a la llista");
+        return avio;
+    }
+
+
+
     public Avio getAvio(String id) {
         logger.info("getAvio("+id+")");
 
         for (Avio a: this.avioList) {
             if (a.getId().equals(id)) {
                 logger.info("getVol("+id+"): "+a);
-
                 return a;
             }
         }
-
-        logger.warn("not found " + id);
+        logger.warn("L'avio amb ID:" + id + " No trobat");
         return null;
     }
+
     public Avio getAvio2(String id) throws AvioNotFoundException {
         Avio a = getAvio(id);
         if (a == null) throw new AvioNotFoundException();
@@ -116,7 +208,7 @@ public class VolManagerImpl implements VolManager {
     public List<Vol> findAllVols() {
         return this.volList;
     }
-    public List<Avio> findAllAvions() {
+    public List<Avio> findAllAvions(){
         return this.avioList;
     }
 
@@ -172,13 +264,13 @@ public class VolManagerImpl implements VolManager {
             a1.setCompanyia(a.getCompanyia());
             a1.setModel(a.getModel());
 
-            logger.info(t+" updated ");
+            logger.info(a1+" updated ");
         }
         else {
-            logger.warn("not found "+v);
+            logger.warn("not found ");
         }
 
-        return t;
+        return a1;
     }
     @Override
     public List<Maleta> getEquipatge(String idVol) {

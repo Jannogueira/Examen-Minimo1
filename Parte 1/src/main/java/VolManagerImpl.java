@@ -71,6 +71,35 @@ public class VolManagerImpl implements VolManager {
             logger.error("Error: L'avio amb ID " + vol.getAvio().getId() + " no existeix a la llista.");
         }
     }
+    @Override
+    public void addVol(String id, String horaSortida, String horaArribada, String idAvio, String origen, String desti) {
+        boolean found = false;
+        Avio avio = getAvio(idAvio);
+        Vol vol = new Vol(id, horaSortida, horaArribada, avio, origen, desti);
+        for (Avio avioA : avioList) {
+            if (avioA.getId().equals(avio.getId())) {
+                found = true;
+            }
+        }
+        if(found) {
+            for (Vol volA : volList) {
+                if (volA.getId().equals(id)) {
+                    volA.setHoraSortida(horaSortida);
+                    volA.setHoraArribada(horaArribada);
+                    volA.setAvio(avio);
+                    volA.setOrigen(origen);
+                    volA.setDesti(desti);
+                    logger.info("Informacio del vol" + id + " actualitzada");
+                    return;
+                }
+            }
+            volList.add(new Vol(id, horaSortida, horaArribada, avio, origen, desti));
+            logger.info("El vol amb ID " + id + " s'ha afegit a la llista");
+        }
+        else{
+            logger.info("Error: L'avio amb ID " + avio.getId() + " no existeix a la llista.");
+        }
+    }
 
 
     @Override
