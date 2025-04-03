@@ -14,7 +14,7 @@ public interface VolManager {
     public int numVols();
     public List<Avio> getAvioList();
     public int numEquipatge(String id);
-
+    public List<Maleta> getEquipatge(String idVol);
 
     Vol getVol(String id);
 

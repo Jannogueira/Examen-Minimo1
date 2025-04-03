@@ -109,4 +109,14 @@ public class VolManagerImpl implements VolManager {
         logger.info("Error: El vol amb ID " + id + " no existeix a la llista.");
         return 0;
     }
+    @Override
+    public List<Maleta> getEquipatge(String idVol) {
+        for(Vol vol : volList){
+            if(vol.getId().equals(idVol)){
+                return vol.getEquipatge();
+            }
+        }
+        logger.info("Error: El vol amb ID " + idVol + " no existeix a la llista.");
+        return null;
+    }
 }

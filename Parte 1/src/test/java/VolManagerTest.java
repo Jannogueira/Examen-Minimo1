@@ -48,8 +48,17 @@ public class VolManagerTest {
         testAddVols();
         Assert.assertEquals(1, vm.numVols());
         Maleta m = new Maleta("David");
+        Maleta m2 = new Maleta("Eduart");
+        Maleta m3 = new Maleta("Miquel");
         Assert.assertEquals(0, vm.numEquipatge("V123"));
         vm.facturarMaleta("V123", m);
         Assert.assertEquals(1, vm.numEquipatge("V123"));
+        vm.facturarMaleta("V123", m2);
+        vm.facturarMaleta("V123", m3);
+        Assert.assertEquals(3, vm.numEquipatge("V123"));
+        List<Maleta> equipatge = vm.getEquipatge("V123");
+        Assert.assertEquals("Miquel", equipatge.get(0).getPropietari());
+        Assert.assertEquals("Eduart", equipatge.get(1).getPropietari());
+        Assert.assertEquals("David", equipatge.get(2).getPropietari());
     }
 }
