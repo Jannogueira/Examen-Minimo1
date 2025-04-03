@@ -61,4 +61,12 @@ public class VolManagerTest {
         Assert.assertEquals("Eduart", equipatge.get(1).getPropietari());
         Assert.assertEquals("David", equipatge.get(2).getPropietari());
     }
+    @Test
+    public void testAddVolSenseAvio() { //Afegim un avio que no existeix
+        Avio avio = new Avio("A99", "B777", "Iberia");
+        Vol vol = new Vol("V999", "10:00", "12:00", avio, "Barcelona", "París");
+        vm.addVol(vol);
+        Assert.assertEquals(0, vm.numVols());
+    }
+    
 }

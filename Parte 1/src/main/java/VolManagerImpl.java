@@ -21,9 +21,10 @@ public class VolManagerImpl implements VolManager {
     public void addAvio(String id, String model, String companyia) {
         for (Avio avio : avioList) {
             if (avio.getId().equals(id)) {
+                logger.warn("L'avio" + avio.getId() + " ja existeix. Actualizant informació");
                 avio.setModel(model);
                 avio.setCompanyia(companyia);
-                logger.info("Info de l'avio" +id +" actualitzada");
+                logger.info("Info de l'avio" +id +" actualitzada (model: "+model + " y companyia: " + companyia + ")");
                 return;
             }
         }
@@ -35,11 +36,11 @@ public class VolManagerImpl implements VolManager {
             for (Vol vol : volList) {
                 if (vol.getId().equals(idVol)) {
                     vol.afegirMaleta(maleta);
-                    logger.info("Maleta afegida al vol" +idVol);
+                    logger.info("La maleta de: " +maleta.getPropietari()+ " s'ha afegit al vol " +idVol);
                     return;
                 }
             }
-        logger.info("Error: El vol amb ID " + idVol + " no existeix a la llista.");
+        logger.error("Error: El vol amb ID " + idVol + " no existeix a la llista.");
     }
 
     @Override
@@ -53,20 +54,21 @@ public class VolManagerImpl implements VolManager {
         if(found) {
             for (Vol volA : volList) {
                 if (volA.getId().equals(vol.getId())) {
+                    logger.warn("El vol" + vol.getId() + " ja existeix. Actualitzant informació");
                     volA.setHoraSortida(vol.getHoraSortida());
                     volA.setHoraArribada(vol.getHoraArribada());
                     volA.setAvio(vol.getAvio());
                     volA.setOrigen(vol.getOrigen());
                     volA.setDesti(vol.getDesti());
-                    logger.info("Informacio del vol" + vol.getId() + " actualitzada");
+                    logger.info("Informació del vol" + vol.getId() + " actualitzada.");
                     return;
                 }
             }
             volList.add(vol);
-            logger.info("El vol amb ID " + vol.getId() + " s'ha afegit a la llista");
+            logger.info("El vol amb ID " + vol.getId() + " s'ha afegit a la llista correctament");
         }
         else{
-            logger.info("Error: L'avio amb ID " + vol.getAvio().getId() + " no existeix a la llista.");
+            logger.error("Error: L'avio amb ID " + vol.getAvio().getId() + " no existeix a la llista.");
         }
     }
 
@@ -81,18 +83,26 @@ public class VolManagerImpl implements VolManager {
 
     @Override
     public Vol getVol(String id) {
-        return volList.stream()
+        Vol vol = volList.stream()
                 .filter(v -> v.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+        if (vol == null) {
+            logger.error("Vol amb ID: " + id + "no trobat.");
+        }
+        return vol;
     }
 
     @Override
     public Avio getAvio(String id) {
-        return avioList.stream()
+        Avio avio = avioList.stream()
                 .filter(a -> a.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+        if(avio == null) {
+            logger.error("Avio amb ID: " + id + "no trobat.");
+        }
+        return avio;
     }
     @Override
     public List<Avio> getAvioList() {
@@ -106,7 +116,7 @@ public class VolManagerImpl implements VolManager {
                 return vol.getEquipatge().size();
             }
         }
-        logger.info("Error: El vol amb ID " + id + " no existeix a la llista.");
+        logger.error("Error: El vol amb ID " + id + " no existeix a la llista.");
         return 0;
     }
     @Override
@@ -116,7 +126,7 @@ public class VolManagerImpl implements VolManager {
                 return vol.getEquipatge();
             }
         }
-        logger.info("Error: El vol amb ID " + idVol + " no existeix a la llista.");
+        logger.error("Error: El vol amb ID " + idVol + " no existeix a la llista.");
         return null;
     }
 }
