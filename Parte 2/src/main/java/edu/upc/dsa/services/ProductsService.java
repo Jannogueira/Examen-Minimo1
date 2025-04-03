@@ -3,7 +3,6 @@ package edu.upc.dsa.services;
 
 import edu.upc.dsa.VolManager;
 import edu.upc.dsa.VolManagerImpl;
-import edu.upc.dsa.models.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

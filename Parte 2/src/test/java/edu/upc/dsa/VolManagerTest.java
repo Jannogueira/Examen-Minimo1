@@ -1,7 +1,6 @@
 package edu.upc.dsa;
 
 import edu.upc.dsa.exceptions.VolNotFoundException;
-import edu.upc.dsa.models.Product;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
