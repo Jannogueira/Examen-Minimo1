@@ -23,20 +23,23 @@ public class VolManagerImpl implements VolManager {
             if (avio.getId().equals(id)) {
                 avio.setModel(model);
                 avio.setCompanyia(companyia);
+                logger.info("Info de l'avio" +id +" actualitzada");
                 return;
             }
         }
         avioList.add(new Avio(id, model, companyia));
+        logger.info("Avio" +id +" afegit");
     }
     @Override
     public void facturarMaleta(String idVol,Maleta maleta) {
             for (Vol vol : volList) {
                 if (vol.getId().equals(idVol)) {
                     vol.afegirMaleta(maleta);
+                    logger.info("Maleta afegida al vol" +idVol);
                     return;
                 }
             }
-        throw new IllegalArgumentException("Error: El vuelo con ID " + idVol + " no existe en la lista.");
+        logger.info("Error: El vol amb ID " + idVol + " no existeix a la llista.");
     }
 
     @Override
@@ -55,13 +58,15 @@ public class VolManagerImpl implements VolManager {
                     volA.setAvio(vol.getAvio());
                     volA.setOrigen(vol.getOrigen());
                     volA.setDesti(vol.getDesti());
+                    logger.info("Informacio del vol" + vol.getId() + " actualitzada");
                     return;
                 }
             }
             volList.add(vol);
+            logger.info("El vol amb ID " + vol.getId() + " s'ha afegit a la llista");
         }
         else{
-            throw new IllegalArgumentException("Error: El avión con ID " + vol.getAvio().getId() + " no existe en la lista.");
+            logger.info("Error: L'avio amb ID " + vol.getAvio().getId() + " no existeix a la llista.");
         }
     }
 
@@ -70,6 +75,7 @@ public class VolManagerImpl implements VolManager {
     public int numVols() {
         if (!volList.isEmpty())
             return volList.size();
+
         return 0;
     }
 
@@ -100,6 +106,7 @@ public class VolManagerImpl implements VolManager {
                 return vol.getEquipatge().size();
             }
         }
-        throw new IllegalArgumentException("Error: El vuelo con ID " + id + " no existe en la lista.");
+        logger.info("Error: El vol amb ID " + id + " no existeix a la llista.");
+        return 0;
     }
 }

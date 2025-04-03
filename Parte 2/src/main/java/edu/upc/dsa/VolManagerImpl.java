@@ -1,23 +1,23 @@
 package edu.upc.dsa;
 
-import edu.upc.dsa.exceptions.ProductNotFoundException;
+import edu.upc.dsa.exceptions.VolNotFoundException;
 import edu.upc.dsa.models.Product;
 
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-public class ProductsManagerImpl implements ProductsManager {
-    private static ProductsManager instance;
+public class VolManagerImpl implements VolManager {
+    private static VolManager instance;
     protected List<Product> products;
-    final static Logger logger = Logger.getLogger(ProductsManagerImpl.class);
+    final static Logger logger = Logger.getLogger(VolManagerImpl.class);
 
-    private ProductsManagerImpl() {
+    private VolManagerImpl() {
         this.products = new LinkedList<>();
     }
 
-    public static ProductsManager getInstance() {
-        if (instance==null) instance = new ProductsManagerImpl();
+    public static VolManager getInstance() {
+        if (instance==null) instance = new VolManagerImpl();
         return instance;
     }
 
@@ -59,9 +59,9 @@ public class ProductsManagerImpl implements ProductsManager {
         return null;
     }
 
-    public Product getProduct2(String id) throws ProductNotFoundException {
+    public Product getProduct2(String id) throws VolNotFoundException {
         Product t = getProduct(id);
-        if (t == null) throw new ProductNotFoundException();
+        if (t == null) throw new VolNotFoundException();
         return t;
     }
 

@@ -1,8 +1,8 @@
 package edu.upc.dsa.services;
 
 
-import edu.upc.dsa.ProductsManager;
-import edu.upc.dsa.ProductsManagerImpl;
+import edu.upc.dsa.VolManager;
+import edu.upc.dsa.VolManagerImpl;
 import edu.upc.dsa.models.Product;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,10 +19,10 @@ import java.util.List;
 @Path("/products")
 public class ProductsService {
 
-    private ProductsManager tm;
+    private VolManager tm;
 
     public ProductsService() {
-        this.tm = ProductsManagerImpl.getInstance();
+        this.tm = VolManagerImpl.getInstance();
         if (tm.size()==0) {
             this.tm.addProduct("T1","Chupa-Chups");
             this.tm.addProduct("T2","Coca Cola");
