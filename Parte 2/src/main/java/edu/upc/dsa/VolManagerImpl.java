@@ -19,6 +19,7 @@ public class VolManagerImpl implements VolManager {
 
     private VolManagerImpl() {
         this.volList = new LinkedList<>();
+        this.avioList = new LinkedList<>();
     }
 
     public static VolManager getInstance() {
@@ -76,41 +77,15 @@ public class VolManagerImpl implements VolManager {
     }
 
     public Vol addVol(String id, String horaSortida, String horaArribada, String idAvio, String origen, String desti) {
-        boolean found = false;
         Avio avio = getAvio(idAvio);
-        Vol vol = new Vol(id, horaSortida, horaArribada, avio, origen, desti);
-        for (Avio avioA : avioList) {
-            if (avioA.getId().equals(avio.getId())) {
-                found = true;
-            }
-        }
-        if(found) {
-            for (Vol volA : volList) {
-                if (volA.getId().equals(id)) {
-                    volA.setHoraSortida(horaSortida);
-                    volA.setHoraArribada(horaArribada);
-                    volA.setAvio(avio);
-                    volA.setOrigen(origen);
-                    volA.setDesti(desti);
-                    logger.info("Informacio del vol" + id + " actualitzada");
-                    return vol;
-                }
-            }
-            volList.add(new Vol(id, horaSortida, horaArribada, avio, origen, desti));
-            logger.info("El vol amb ID " + id + " s'ha afegit a la llista");
-        }
-        else{
-            logger.info("Error: L'avio amb ID " + avio.getId() + " no existeix a la llista.");
-        }
-        return vol;
+        return addVol(id, horaSortida, horaArribada, avio, origen, desti);
     }
     public Vol addVol(String id, String horaSortida, String horaArribada, Avio avio, String origen, String desti) {
         boolean found = false;
         Vol vol = new Vol(id, horaSortida, horaArribada, avio, origen, desti);
         for (Avio avioA : avioList) {
-            if (avioA.getId().equals(avio.getId())) {
+            if (avioA.getId().equals(avio.getId()))
                 found = true;
-            }
         }
         if(found) {
             for (Vol volA : volList) {
@@ -170,18 +145,7 @@ public class VolManagerImpl implements VolManager {
     }
 
     public Avio addAvio(Avio avio) {
-        for (Avio avioA : avioList) {
-            if (avioA.getId().equals(avio.getId())) {
-                avioA.setModel(avio.getModel());
-                avioA.setCompanyia(avio.getCompanyia());
-
-                logger.info("Informacio de l'avio" + avio.getId() + " actualitzada");
-                return avio;
-            }
-        }
-        avioList.add(avio);
-        logger.info("L'avio amb ID " + avio.getId() + " s'ha afegit a la llista");
-        return avio;
+        return addAvio(avio.getId(), avio.getModel(), avio.getCompanyia());
     }
 
 

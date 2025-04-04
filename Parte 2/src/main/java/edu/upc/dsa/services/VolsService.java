@@ -119,8 +119,4 @@ public class VolsService {
         this.vm.addVol(vol);
         return Response.status(201).entity(vol).build();
     }
-
-
-
-
 }
