@@ -21,6 +21,8 @@ public class Vol {
         this.desti = desti;
         equipatge = new ArrayList<>();
     }
+    public Vol(){}
+
     public String getId() {
         return id;
     }

@@ -172,12 +172,12 @@ public class VolManagerTest {
         Assert.assertEquals("Airbus A380", a.getModel());
         Assert.assertEquals( "Emirates", a.getCompanyia());
 
-        a.setCompanyia("Jans Air");
+        a.setCompanyia("Jan's Air");
         this.vm.updateAvio(a);
 
         a = this.vm.getAvio("A380");
         Assert.assertEquals("Airbus A380", a.getModel());
-        Assert.assertEquals( "Jans Air", a.getCompanyia());
+        Assert.assertEquals( "Jan's Air", a.getCompanyia());
     }
 
 
@@ -199,6 +199,5 @@ public class VolManagerTest {
 
         Assert.assertThrows(AvioNotFoundException.class, () ->
                 this.vm.getAvio2("A380"));
-
     }
 }

@@ -42,7 +42,7 @@ public class VolsService {
     }
 
     @GET
-    @ApiOperation(value = "get all Vols", notes = "asdasd")
+    @ApiOperation(value = "get all Vols", notes = "Dona una llista dels Vols afegits")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Vol.class, responseContainer="List"),
     })

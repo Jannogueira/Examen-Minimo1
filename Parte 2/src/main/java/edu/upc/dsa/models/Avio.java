@@ -12,6 +12,7 @@ public class Avio {
         this.model = model;
         this.companyia = companyia;
     }
+    public Avio() {}
 
     public String getId() {
         return id;
