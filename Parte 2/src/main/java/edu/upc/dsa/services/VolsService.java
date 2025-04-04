@@ -24,12 +24,19 @@ public class VolsService {
 
     public VolsService() {
         this.vm = VolManagerImpl.getInstance();
-        if (vm.sizeVols()==0) {
-            this.vm.addAvio();
-            this.vm.addVol("T1","Chupa-Chups");
-            this.vm.addVol("T2","Coca Cola");
-            this.vm.addVol("T3","Pringles");
+        if (vm.sizeAvions()==0) {
+            this.vm.addAvio("A320", "Airbus A320", "Iberia");
+            this.vm.addAvio("A380", "Airbus A380", "Emirates");
+            this.vm.addAvio("A350", "Airbus A350", "Lufthansa");
+            this.vm.addAvio("B777", "Boeing 777", "Singapore Airlines");
         }
+        if (vm.sizeVols()==0) {
+            this.vm.addVol("V123", "08:30", "12:45", "A320", "Barcelona", "Madrid");
+            this.vm.addVol("V010", "16:20", "23:50", "A380", "Los Ángeles", "Sídney");
+            this.vm.addVol("V012", "11:15", "17:45", "A350", "París", "Seúl");
+            this.vm.addVol("V015", "23:55", "06:20", "B777", "Hong Kong", "Londres");
+        }
+
 
 
     }
@@ -112,5 +119,8 @@ public class VolsService {
         this.vm.addVol(vol);
         return Response.status(201).entity(vol).build();
     }
+
+
+
 
 }
