@@ -103,7 +103,7 @@ public class VolManagerImpl implements VolManager {
             logger.info("El vol amb ID " + id + " s'ha afegit a la llista");
         }
         else{
-            logger.info("Error: L'avio amb ID " + avio.getId() + " no existeix a la llista.");
+            logger.info("Error: L'avio no existeix a la llista.");
         }
         return vol;
     }
@@ -246,7 +246,28 @@ public class VolManagerImpl implements VolManager {
         logger.info("Error: El vol amb ID " + idVol + " no existeix a la llista.");
         return null;
     }
-
+    @Override
+    public int numEquipatge(String id){
+        for(Vol vol : volList){
+            if(vol.getId().equals(id)){
+                return vol.getEquipatge().size();
+            }
+        }
+        logger.error("Error: El vol amb ID " + id + " no existeix a la llista.");
+        return 0;
+    }
+    @Override
+    public void facturarMaleta(String idVol,String Propietari) {
+        Maleta maleta = new Maleta(Propietari);
+        for (Vol vol : volList) {
+            if (vol.getId().equals(idVol)) {
+                vol.afegirMaleta(maleta);
+                logger.info("La maleta de: " +maleta.getPropietari()+ " s'ha afegit al vol " +idVol);
+                return;
+            }
+        }
+        logger.error("Error: El vol amb ID " + idVol + " no existeix a la llista.");
+    }
 
 
     public void clear() {

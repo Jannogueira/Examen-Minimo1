@@ -1,10 +1,9 @@
 package edu.upc.dsa.services;
 
-import edu.upc.dsa.models.Avio;
-import edu.upc.dsa.models.Vol;
-import edu.upc.dsa.models.Maleta;
 import edu.upc.dsa.VolManager;
 import edu.upc.dsa.VolManagerImpl;
+import edu.upc.dsa.models.Avio;
+import edu.upc.dsa.models.Vol;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Api(value = "/vols", description = "Endpoint to Vols Service")
+@Api(value = "/vols", description = "Endpoint to vols Service")
 @Path("/vols")
 public class VolsService {
 
@@ -36,13 +35,10 @@ public class VolsService {
             this.vm.addVol("V012", "11:15", "17:45", "A350", "París", "Seúl");
             this.vm.addVol("V015", "23:55", "06:20", "B777", "Hong Kong", "Londres");
         }
-
-
-
     }
 
     @GET
-    @ApiOperation(value = "get all Vols", notes = "Dona una llista dels Vols afegits")
+    @ApiOperation(value = "get all Vols", notes = "Dona una llista dels vols afegits")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful", response = Vol.class, responseContainer="List"),
     })
@@ -89,7 +85,7 @@ public class VolsService {
     @ApiOperation(value = "update a Vol", notes = "asdasd")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Successful"),
-            @ApiResponse(code = 404, message = "Product not found")
+            @ApiResponse(code = 404, message = "Vol not found")
     })
     @Path("/")
     public Response updateVol(Vol vol) {
@@ -114,9 +110,31 @@ public class VolsService {
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newVol(Vol vol) {
-
-        if (vol.getOrigen()== null|| vol.getDesti()==null)  return Response.status(500).entity(vol).build();
+        if (vol.getDesti()== null|| vol.getOrigen()==null)  return Response.status(500).entity(vol).build();
         this.vm.addVol(vol);
         return Response.status(201).entity(vol).build();
     }
+
+    @POST
+    @ApiOperation(value = "Facturar maleta", notes = "Afegir una maleta a un vol")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Maleta afegida correctament"),
+            @ApiResponse(code = 404, message = "Vol no trobat"),
+            @ApiResponse(code = 400, message = "Paràmetres invàlids")
+    })
+    @Path("/{idVol}/maletes/{propietari}")
+    public Response facturarMaleta(@PathParam("idVol") String idVol, @PathParam("propietari") String propietari) {
+        if (idVol == null || propietari == null || propietari.trim().isEmpty()) {
+            return Response.status(400).entity("Falten dades per facturar la maleta").build();
+        }
+
+        try {
+            this.vm.facturarMaleta(idVol, propietari);
+            return Response.status(201).entity("Maleta facturada correctament").build();
+        } catch (Exception e) {
+            return Response.status(404).entity("Error: El vol no existeix").build();
+        }
+    }
+
+
 }

@@ -35,4 +35,6 @@ public interface VolManager {
     public int sizeVols();
     public int sizeAvions();
     public int sizeEquipatge(String volId);
+    public void facturarMaleta(String idVol,String Propietari);
+    public int numEquipatge(String id);
 }

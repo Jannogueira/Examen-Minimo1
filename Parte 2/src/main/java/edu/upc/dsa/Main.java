@@ -29,6 +29,7 @@ public class Main {
 
         rc.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         rc.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+        rc.register(org.glassfish.jersey.moxy.json.MoxyJsonFeature.class);
 
         BeanConfig beanConfig = new BeanConfig();
 

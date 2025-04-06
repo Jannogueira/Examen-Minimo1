@@ -1,8 +1,12 @@
 package edu.upc.dsa.models;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
-
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Vol {
     String id;
     String horaSortida;
@@ -19,9 +23,11 @@ public class Vol {
         this.avio = avio;
         this.origen = origen;
         this.desti = desti;
-        equipatge = new ArrayList<>();
+        this.equipatge = new ArrayList<>();
     }
-    public Vol(){}
+    public Vol(){
+
+    }
 
     public String getId() {
         return id;

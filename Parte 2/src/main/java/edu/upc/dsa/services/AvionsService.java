@@ -3,7 +3,6 @@ package edu.upc.dsa.services;
 import edu.upc.dsa.VolManager;
 import edu.upc.dsa.VolManagerImpl;
 import edu.upc.dsa.models.Avio;
-import edu.upc.dsa.models.Vol;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,12 +15,12 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Api(value = "/avions", description = "Endpoint to Avions Service")
-@Path("/avios")
-public class AvioService {
+@Path("/avions")
+public class AvionsService {
 
     private VolManager vm;
 
-    public AvioService() {
+    public AvionsService() {
         this.vm = VolManagerImpl.getInstance();
         if (vm.sizeAvions()==0) {
             this.vm.addAvio("A320", "Airbus A320", "Iberia");
@@ -108,4 +107,6 @@ public class AvioService {
         this.vm.addAvio(avio);
         return Response.status(201).entity(avio).build();
     }
+
+
 }

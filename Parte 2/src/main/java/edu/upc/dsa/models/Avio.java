@@ -1,7 +1,8 @@
 package edu.upc.dsa.models;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashMap;
-
+@XmlRootElement
 public class Avio {
     String id;
     String model;
