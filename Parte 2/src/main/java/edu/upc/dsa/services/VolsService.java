@@ -3,6 +3,7 @@ package edu.upc.dsa.services;
 import edu.upc.dsa.VolManager;
 import edu.upc.dsa.VolManagerImpl;
 import edu.upc.dsa.models.Avio;
+import edu.upc.dsa.models.Maleta;
 import edu.upc.dsa.models.Vol;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -134,6 +135,25 @@ public class VolsService {
         } catch (Exception e) {
             return Response.status(404).entity("Error: El vol no existeix").build();
         }
+    }
+
+    @GET
+    @ApiOperation(value = "Obtenir equipatge d’un vol", notes = "Retorna totes les maletes facturades d’un vol")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Llista de maletes retornada correctament", response = Maleta.class, responseContainer = "List"),
+            @ApiResponse(code = 404, message = "Vol no trobat")
+    })
+    @Path("/{idVol}/maletes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEquipatge(@PathParam("idVol") String idVol) {
+        List<Maleta> maletes = this.vm.getEquipatge(idVol);
+
+        if (maletes == null) {
+            return Response.status(404).entity("El vol amb ID " + idVol + " no existeix").build();
+        }
+
+        GenericEntity<List<Maleta>> entity = new GenericEntity<List<Maleta>>(maletes) {};
+        return Response.ok().entity(entity).build();
     }
 
 
